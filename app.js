@@ -24,7 +24,7 @@ createApp({
         autor: "Solomon Hykes"
       },
     ])
-
+    // Declaracion de variables reactivas a utilizar
     const nuevaFrase = ref('');
     const nuevoAutor = ref('');
     const mostrarMensajeError = ref(false);
@@ -34,7 +34,8 @@ createApp({
       if (!nuevoAutor.value) return "Ingrese el autor";
     })
 
-    const watcher = watch([nuevaFrase, nuevoAutor], () => {
+    //Observador que espera cambios en el formulario
+    watch([nuevaFrase, nuevoAutor], () => {
       if (mostrarMensajeError) {
         if (nuevaFrase.value || nuevoAutor.value) {
           mostrarMensajeError.value = false;
@@ -42,8 +43,17 @@ createApp({
       }
     });
 
+    // FUNCION QUE VALIDA QUE NO ESTEN LOS CAMPOS VACIOS
+    function isEmpty(stringValidar) {
+      if (!stringValidar.trim()) {
+        return true
+      }
+      return false
+    }
+
+    // FUNCION AGREGAR UNA FRASE AL ARRAY
     const agregarFrase = () => {
-      if (!nuevaFrase.value.trim() || !nuevoAutor.value.trim()) {
+      if (isEmpty(nuevaFrase.value) || isEmpty(nuevoAutor.value)) {
         mostrarMensajeError.value = true;
         return;
       }
@@ -57,9 +67,29 @@ createApp({
       return listaFrases.value.splice(index, 1)
     }
 
-    const abrirModal = (index) => {
+    // VARIABLES REACTIVAS Y FUNCIONES DE LA MODAL
+    const fraseEditada = ref('');
+    const autorEditado = ref('');
+    const indexEditar = ref()
+    const mensajeErrorModal = ref(false);
+    
+    const abrirModal = (frase, index) => {
+      fraseEditada.value = frase.frase
+      autorEditado.value = frase.autor
+      indexEditar.value = index
       const editModal = new bootstrap.Modal(document.getElementById('editModal'));
       editModal.show();
+    }
+
+    const editarFrase = () => {
+      if (isEmpty(fraseEditada.value) || isEmpty(autorEditado.value)) {
+        mensajeErrorModal.value = true
+        return
+      }
+      listaFrases.value.splice(indexEditar.value, 1, {frase: fraseEditada.value, autor: autorEditado.value})
+      mensajeErrorModal.value = false
+      const editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+      editModal.hide();
     }
 
     return ({
@@ -68,10 +98,13 @@ createApp({
       nuevoAutor,
       mostrarMensajeError,
       mensajeError,
-      watcher,
       agregarFrase,
       eliminarFrase,
+      fraseEditada,
+      autorEditado,
+      mensajeErrorModal,
       abrirModal,
+      editarFrase,
     })
   },
 }).mount("#app")

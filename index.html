@@ -39,7 +39,7 @@
           <td scope="row">{{ frase.frase }}</td>
           <td scope="row">{{ frase.autor }}</td>
           <td scope="row">
-            <button class="btn btn-primary me-1" @click="abrirModal(index)" id="editBtn">Edit</button>
+            <button class="btn btn-primary me-1" @click="abrirModal(frase, index)" id="editBtn">E</button>
             <button class="btn btn-danger" @click="eliminarFrase(index)">X</button>
           </td>
         </tr>
@@ -57,17 +57,17 @@
           <div class="modal-body">
             <div class="mb-3">
               <div class="input-group">
-                <input @keyup.enter="agregarFrase()" v-model="" type="text" class="form-control" value=""> 
+                <input @keyup.enter="editarFrase()" v-model="fraseEditada" type="text" class="form-control" value=""> 
                 <span class="input-group-text">By</span>
-                <input @keyup.enter="agregarFrase()" v-model="nuevoAutor" type="text" class="form-control" value="{{ frase.autor }}">
+                <input @keyup.enter="editarFrase()" v-model="autorEditado" type="text" class="form-control" value="{{ frase.autor }}">
               </div>
-              <span class="text-danger" v-show="mostrarMensajeError">{{ mensajeError }}</span>
+              <span class="text-danger" v-show="mensajeErrorModal">fjdsafds</span>
             </div>
           </div>
           <!-- MODAL BOTONES -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button @click="editarFrase()" type="button" class="btn btn-success">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button @click="editarFrase()" type="button" class="btn btn-success">Guardar Cambios</button>
           </div>
         </div>
       </div>
