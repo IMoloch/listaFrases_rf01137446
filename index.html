@@ -39,12 +39,39 @@
           <td scope="row">{{ frase.frase }}</td>
           <td scope="row">{{ frase.autor }}</td>
           <td scope="row">
-            <button class="btn btn-primary me-1">Edit</button>
+            <button class="btn btn-primary me-1" @click="abrirModal(index)" id="editBtn">Edit</button>
             <button class="btn btn-danger" @click="eliminarFrase(index)">X</button>
           </td>
         </tr>
       </tbody>
     </table>
+    <!-- MODAL -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="editModal">Modal title</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <!-- MODAL BODY -->
+          <div class="modal-body">
+            <div class="mb-3">
+              <div class="input-group">
+                <input @keyup.enter="agregarFrase()" v-model="" type="text" class="form-control" value=""> 
+                <span class="input-group-text">By</span>
+                <input @keyup.enter="agregarFrase()" v-model="nuevoAutor" type="text" class="form-control" value="{{ frase.autor }}">
+              </div>
+              <span class="text-danger" v-show="mostrarMensajeError">{{ mensajeError }}</span>
+            </div>
+          </div>
+          <!-- MODAL BOTONES -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button @click="editarFrase()" type="button" class="btn btn-success">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 
@@ -52,5 +79,6 @@
   integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="app.js"></script>
+<script src="modal.js"></script>
 
 </html>

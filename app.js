@@ -57,8 +57,9 @@ createApp({
       return listaFrases.value.splice(index, 1)
     }
 
-    const editarFrase = () => {
-
+    const abrirModal = (index) => {
+      const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+      editModal.show();
     }
 
     return ({
@@ -70,7 +71,7 @@ createApp({
       watcher,
       agregarFrase,
       eliminarFrase,
-      editarFrase,
+      abrirModal,
     })
   },
 }).mount("#app")
