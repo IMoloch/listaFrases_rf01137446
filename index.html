@@ -9,21 +9,23 @@
   <title>Ejercicio 5</title>
 </head>
 
-<body class="container">
+<body class="container mt-5">
   <div id="app">
     <h1>Frases Originales</h1>
     <h2>Contador de frases {{ listaFrases.length }}</h2>
-
     <hr>
 
-    <div class="input-group mb-3">
-      <input @keyup.enter="agregarFrase" v-model="nuevaFrase" type="text" class="form-control" placeholder="Frase" aria-label="Username">
-      <span class="input-group-text">By</span>
-      <input @keyup.enter="agregarFrase" v-model="nuevoAutor" type="text" class="form-control" placeholder="Autor" aria-label="Server">
+    <div class="mb-3">
+      <div class="input-group">
+        <input @keyup.enter="agregarFrase()" v-model="nuevaFrase" type="text" class="form-control" placeholder="Frase">
+        <span class="input-group-text">By</span>
+        <input @keyup.enter="agregarFrase()" v-model="nuevoAutor" type="text" class="form-control" placeholder="Autor">
+      </div>
+      <span class="text-danger" v-show="mostrarMensajeError">{{ mensajeError }}</span>
     </div>
-    <button @click="agregarFrase" class="btn btn-success"> Agregar frase </button>
-    <hr>
+    <button @click="agregarFrase()" class="btn btn-success" id="addBtn"> Agregar frase </button>
 
+    <hr>
     <table class="table table-striped">
       <thead>
         <tr>
