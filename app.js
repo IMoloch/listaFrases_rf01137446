@@ -1,4 +1,4 @@
-const { ref, createApp, computed, watch } = Vue;
+const { ref, createApp, computed, watch, onMounted } = Vue;
 
 createApp({
   setup() {
@@ -12,7 +12,7 @@ createApp({
         autor: "Robert C. Martin"
       },
       {
-        frase: "La programación es como la cocina: sigue la receta, pero también improvisa",
+        frase: "La programación es como la cocina; sigue la receta, pero también improvisa",
         autor: "John Romero"
       },
       {
@@ -28,13 +28,8 @@ createApp({
     const nuevaFrase = ref('');
     const nuevoAutor = ref('');
     const mostrarMensajeError = ref(false);
-    const mensajeError = computed(() => {
-      if (!nuevoAutor.value && !nuevaFrase.value) return "Complete todos los campos";
-      if (!nuevaFrase.value) return "Ingrese una frase";
-      if (!nuevoAutor.value) return "Ingrese el autor";
-    })
 
-    //Observador que espera cambios en el formulario
+    //Observador que espera cambios en el formulario de nueva frase
     watch([nuevaFrase, nuevoAutor], () => {
       if (mostrarMensajeError) {
         if (nuevaFrase.value || nuevoAutor.value) {
@@ -63,6 +58,7 @@ createApp({
       return;
     }
 
+    // FUNCION ELIMINAR UNA FRASE DEL ARRAY
     const eliminarFrase = (index) => {
       return listaFrases.value.splice(index, 1)
     }
@@ -72,32 +68,33 @@ createApp({
     const autorEditado = ref('');
     const indexEditar = ref()
     const mensajeErrorModal = ref(false);
-    
+
+    // FUNCION QUE ABRE EL MODAL Y LE ASIGNA LOS VALORES CORRECTOS
     const abrirModal = (frase, index) => {
       fraseEditada.value = frase.frase
       autorEditado.value = frase.autor
       indexEditar.value = index
       const editModal = new bootstrap.Modal(document.getElementById('editModal'));
       editModal.show();
-    }
+    };
 
+    // FUNCION QUE EDITA LOS DATOS DEL ARRAY
     const editarFrase = () => {
       if (isEmpty(fraseEditada.value) || isEmpty(autorEditado.value)) {
         mensajeErrorModal.value = true
         return
       }
-      listaFrases.value.splice(indexEditar.value, 1, {frase: fraseEditada.value, autor: autorEditado.value})
+      listaFrases.value.splice(indexEditar.value, 1, { frase: fraseEditada.value, autor: autorEditado.value })
       mensajeErrorModal.value = false
       const editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
       editModal.hide();
-    }
+    };
 
     return ({
       listaFrases,
       nuevaFrase,
       nuevoAutor,
       mostrarMensajeError,
-      mensajeError,
       agregarFrase,
       eliminarFrase,
       fraseEditada,
@@ -107,4 +104,5 @@ createApp({
       editarFrase,
     })
   },
+
 }).mount("#app")
